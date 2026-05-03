@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deadly Wave Esports</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+
+body{
+  min-height:100vh;
+  color:#dffcff;
+  background:radial-gradient(circle at top,#0b5b68 0%,#041318 42%,#010507 100%);
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,255,.05) 1px,transparent 1px);
+  background-size:45px 45px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.login-page{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:radial-gradient(circle at top,#0b5b68 0%,#041318 45%,#010507 100%);
+}
+
+.login-card{
+  width:min(460px,100%);
+  padding:35px;
+  border-radius:25px;
+  background:rgba(5,28,34,.96);
+  border:1px solid rgba(41,247,255,.45);
+  box-shadow:0 0 60px rgba(35,234,255,.25);
+  text-align:center;
+}
+
+.login-card h1{
+  font-size:42px;
+  color:#eaffff;
+  text-shadow:0 0 22px #00eaff;
+  margin-bottom:12px;
+}
+
+.login-card p{color:#a9d5dc;margin-bottom:22px}
+
+.login-card input{
+  width:100%;
+  padding:15px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid rgba(41,247,255,.45);
+  background:rgba(0,10,14,.82);
+  color:#dffcff;
+  outline:none;
+}
+
+.login-card button{
+  width:100%;
+  margin-top:12px;
+  border:none;
+  padding:14px 20px;
+  border-radius:12px;
+  background:#23eaff;
+  color:#001014;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 0 25px rgba(35,234,255,.45);
+}
+
+.admin-mini{
+  margin-top:24px;
+  padding-top:20px;
+  border-top:1px solid rgba(41,247,255,.25);
+}
+
+#mainSite{display:none}
+
+.page{position:relative;z-index:1;min-height:100vh;padding:25px 7%}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+
+.brand{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:3px;
+  color:#7ffaff;
+  text-shadow:0 0 18px #00f7ff;
+}
+
+.tag{
+  border:1px solid #25f4ff;
+  padding:10px 18px;
+  border-radius:30px;
+  color:#bffcff;
+  box-shadow:0 0 18px rgba(0,255,255,.25);
+  font-size:14px;
+}
+
+.hero{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:50px;
+  align-items:center;
+  padding:70px 0 50px;
+}
+
+.hero h1{
+  font-size:clamp(48px,8vw,100px);
+  line-height:.9;
+  text-transform:uppercase;
+  letter-spacing:4px;
+  color:#eaffff;
+  text-shadow:0 0 12px #00eaff,0 0 45px #00eaff;
+}
+
+.hero h1 span{color:#33f6ff}
+
+.hero p{
+  max-width:650px;
+  margin-top:24px;
+  color:#a7dce2;
+  font-size:18px;
+  line-height:1.7;
+}
+
+.hero-buttons{margin-top:32px;display:flex;gap:15px;flex-wrap:wrap}
+
+.btn{
+  text-decoration:none;
+  color:#001014;
+  background:#29f7ff;
+  padding:14px 25px;
+  border-radius:8px;
+  font-weight:900;
+  letter-spacing:1px;
+  box-shadow:0 0 25px rgba(41,247,255,.6);
+  transition:.25s;
+  border:none;
+  cursor:pointer;
+}
+
+.btn:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 0 40px rgba(41,247,255,.95);
+}
+
+.btn.secondary{
+  color:#dffcff;
+  background:transparent;
+  border:1px solid #29f7ff;
+}
+
+.logo-card{
+  min-height:360px;
+  border:1px solid rgba(41,247,255,.35);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(8,52,62,.95),rgba(1,10,13,.95));
+  box-shadow:0 0 60px rgba(0,238,255,.25),inset 0 0 35px rgba(0,238,255,.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.logo-card::before{
+  content:"";
+  position:absolute;
+  width:180%;
+  height:180%;
+  background:conic-gradient(transparent,#24f6ff,transparent 30%);
+  animation:spin 5s linear infinite;
+  opacity:.35;
+}
+
+.logo-inner{
+  position:relative;
+  z-index:2;
+  width:calc(100% - 8px);
+  height:calc(100% - 8px);
+  border-radius:22px;
+  background:#061317;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:35px;
+}
+
+.dw-mark{
+  font-size:100px;
+  font-weight:900;
+  color:#7ffaff;
+  text-shadow:0 0 15px #00f7ff,0 0 50px #00f7ff;
+}
+
+.wave{
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:6px;
+  color:#eaffff;
+  margin-top:8px;
+  text-shadow:0 0 20px #00f7ff;
+}
+
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.section-title{
+  text-align:center;
+  margin:30px 0 35px;
+  font-size:38px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:#cfffff;
+  text-shadow:0 0 20px #00eaff;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px;
+  padding-bottom:60px;
+}
+
+.card{
+  min-height:230px;
+  padding:24px;
+  border-radius:18px;
+  background:rgba(5,28,34,.9);
+  border:1px solid rgba(41,247,255,.32);
+  box-shadow:0 0 25px rgba(0,255,255,.12);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  border-color:#29f7ff;
+  box-shadow:0 0 40px rgba(0,255,255,.35);
+}
+
+.card h3{
+  margin-top:16px;
+  font-size:23px;
+  color:#fff;
+  text-transform:uppercase;
+}
+
+.card p{
+  margin-top:13px;
+  color:#a9d5dc;
+  line-height:1.55;
+  font-size:14px;
+}
+
+.card button{
+  margin-top:20px;
+  width:100%;
+  border:none;
+  padding:12px;
+  border-radius:8px;
+  background:#23eaff;
+  color:#001014;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.sub-page{
+  display:none;
+  max-width:1080px;
+  margin:40px auto 70px;
+  padding:35px;
+  border-radius:24px;
+  background:rgba(5,28,34,.94);
+  border:1px solid rgba(41,247,255,.38);
+  box-shadow:0 0 45px rgba(0,238,255,.18);
+}
+
+.sub-page.active{display:block;animation:fadeUp .45s ease}
+
+.sub-page h2{
+  font-size:42px;
+  color:#eaffff;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  text-shadow:0 0 22px #00eaff;
+}
+
+.sub-page p{
+  margin:14px 0 25px;
+  color:#a9d5dc;
+  line-height:1.6;
+}
+
+.form-box{display:grid;gap:14px}
+
+.form-box input,.form-box textarea,.select-field{
+  width:100%;
+  padding:17px;
+  border-radius:12px;
+  border:1px solid rgba(41,247,255,.45);
+  background:rgba(0,10,14,.82);
+  color:#dffcff;
+  outline:none;
+  font-size:16px;
+}
+
+.form-box textarea{min-height:120px;resize:vertical}
+
+.field-label{color:#7ffaff;font-weight:800}
+
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+.role-grid label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 15px;
+  border-radius:10px;
+  border:1px solid rgba(41,247,255,.35);
+  background:rgba(0,10,14,.8);
+  font-weight:700;
+}
+
+.role-grid input{width:auto;accent-color:#23eaff;transform:scale(1.2)}
+
+.player-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.substitute-box{
+  padding:18px;
+  border-radius:16px;
+  border:1px solid rgba(41,247,255,.45);
+  background:rgba(0,10,14,.45);
+  box-shadow:inset 0 0 22px rgba(35,234,255,.08);
+  display:grid;
+  gap:14px;
+}
+
+.picker-wrap{position:relative;display:flex;align-items:center}
+
+.picker-wrap input{
+  padding-right:84px;
+  height:62px;
+  cursor:pointer;
+  appearance:none;
+  font-size:16px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator{
+  opacity:0;
+  display:none;
+}
+
+.picker-icon{
+  position:absolute;
+  right:8px;
+  width:60px;
+  height:52px;
+  border:1px solid rgba(41,247,255,.75);
+  border-radius:15px;
+  background:linear-gradient(145deg,rgba(8,52,62,.98),rgba(0,14,18,.98));
+  color:#7ffaff;
+  cursor:pointer;
+  box-shadow:inset 0 0 18px rgba(41,247,255,.18),0 0 28px rgba(35,234,255,.42);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.picker-icon svg{
+  width:34px;
+  height:34px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.form-box button,.back-btn{
+  border:none;
+  padding:14px 20px;
+  border-radius:10px;
+  background:#23eaff;
+  color:#001014;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(35,234,255,.35);
+}
+
+.back-btn{
+  margin-bottom:25px;
+  background:transparent;
+  color:#dffcff;
+  border:1px solid #23eaff;
+}
+
+.scrim-organizer{
+  text-align:center;
+  margin:8px 0 25px;
+  color:#36ffd0;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.scrim-info-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.scrim-info-card{
+  min-height:135px;
+  border-radius:18px;
+  background:rgba(0,10,14,.72);
+  border:1px solid rgba(41,247,255,.3);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:18px;
+  box-shadow:inset 0 0 25px rgba(35,234,255,.06);
+}
+
+.scrim-info-card.highlight{
+  border-color:#23eaff;
+  background:rgba(35,234,255,.13);
+  box-shadow:0 0 30px rgba(35,234,255,.25);
+}
+
+.scrim-icon{font-size:34px}
+
+.scrim-info-card span,.slot-status span{
+  color:#7f99a5;
+  font-weight:900;
+  text-transform:uppercase;
+  font-size:13px;
+}
+
+.scrim-info-card h3{
+  color:#eaffff;
+  font-size:26px;
+  margin-top:6px;
+}
+
+.slot-status{
+  padding:25px;
+  border-radius:18px;
+  background:rgba(0,10,14,.72);
+  border:1px solid rgba(41,247,255,.28);
+  margin-bottom:18px;
+}
+
+.slot-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.slot-top h3{
+  margin-top:8px;
+  font-size:30px;
+  color:#9fb7c0;
+}
+
+.slot-top h3 b{color:#23eaff}
+
+.slot-badge{
+  border:1px solid #23eaff;
+  border-radius:10px;
+  padding:8px 14px;
+  color:#23eaff!important;
+}
+
+.slot-bar{
+  margin-top:18px;
+  height:11px;
+  border-radius:30px;
+  background:rgba(255,255,255,.12);
+  overflow:hidden;
+}
+
+.slot-fill{
+  width:40%;
+  height:100%;
+  border-radius:30px;
+  background:linear-gradient(90deg,#23eaff,#7ffaff);
+  box-shadow:0 0 18px rgba(35,234,255,.65);
+}
+
+.scrim-panel{
+  padding:25px;
+  border-radius:18px;
+  background:rgba(0,10,14,.72);
+  border:1px solid rgba(41,247,255,.28);
+}
+
+.scrim-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  margin-bottom:20px;
+}
+
+.tab-btn{
+  border:none;
+  background:transparent;
+  padding:15px;
+  color:#7f99a5;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  text-transform:uppercase;
+}
+
+.tab-btn.active{
+  color:#23eaff;
+  border-bottom:2px solid #23eaff;
+  text-shadow:0 0 15px #00eaff;
+}
+
+.scrim-content{display:none;color:#a9d5dc}
+
+.scrim-content.active{display:block}
+
+.scrim-content h3{
+  color:#eaffff;
+  font-size:22px;
+  margin-bottom:10px;
+  text-transform:uppercase;
+}
+
+.scrim-content p{margin:8px 0}
+
+.scrim-register{
+  width:min(320px,100%);
+  margin:25px auto 0;
+  display:block;
+  border:none;
+  padding:16px 22px;
+  border-radius:14px;
+  background:#23eaff;
+  color:#001014;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 0 25px rgba(35,234,255,.45);
+}
+
+.admin-box{
+  margin-top:25px;
+  padding:22px;
+  border-radius:18px;
+  border:1px solid rgba(41,247,255,.35);
+  background:rgba(0,10,14,.62);
+  display:grid;
+  gap:14px;
+}
+
+.admin-counts{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.admin-count{
+  padding:18px;
+  border-radius:15px;
+  border:1px solid rgba(41,247,255,.35);
+  background:rgba(0,10,14,.78);
+}
+
+.entry-card{
+  padding:15px;
+  border-radius:14px;
+  border:1px solid rgba(41,247,255,.25);
+  background:rgba(0,10,14,.55);
+  margin-top:10px;
+  text-align:left;
+}
+
+.entry-card h4{color:#23eaff;margin-bottom:8px}
+
+.entry-card pre{
+  white-space:pre-wrap;
+  color:#dffcff;
+  font-size:13px;
+}
+
+.site-popup{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,5,8,.72);
+  backdrop-filter:blur(8px);
+  z-index:50;
+}
+
+.site-popup.active{display:flex}
+
+.popup-card{
+  width:min(430px,100%);
+  padding:30px;
+  border-radius:22px;
+  text-align:center;
+  background:linear-gradient(145deg,rgba(8,52,62,.98),rgba(0,14,18,.98));
+  border:1px solid rgba(41,247,255,.5);
+  box-shadow:0 0 50px rgba(35,234,255,.3);
+}
+
+.popup-card h3{
+  font-size:28px;
+  color:#eaffff;
+  text-shadow:0 0 18px #00eaff;
+  margin-bottom:10px;
+}
+
+.popup-card p{color:#a9d5dc;margin-bottom:24px}
+
+.popup-card button{
+  border:none;
+  padding:13px 28px;
+  border-radius:10px;
+  background:#23eaff;
+  color:#001014;
+  font-weight:900;
+  cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  color:#78cbd4;
+  padding:25px 0;
+  border-top:1px solid rgba(41,247,255,.22);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr}
+  .options{grid-template-columns:repeat(2,1fr)}
+  .scrim-info-grid{grid-template-columns:1fr}
+  .admin-counts{grid-template-columns:1fr}
+}
+
+@media(max-width:650px){
+  .page{padding:18px 5%}
+  nav{flex-direction:column;align-items:flex-start;gap:14px}
+  .options{grid-template-columns:1fr}
+  .role-grid{grid-template-columns:1fr}
+  .player-row{grid-template-columns:1fr}
+  .sub-page h2{font-size:34px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <h1>DEADLY WAVE</h1>
+    <p>Login to enter the neon lobby.</p>
+    <button onclick="googleLogin()">Continue with Google</button>
+
+    <div class="admin-mini">
+      <h3>ADMIN LOGIN</h3>
+      <input id="adminId" placeholder="Admin ID">
+      <input id="adminPass" type="password" placeholder="Admin Password">
+      <button onclick="adminLogin()">Login as Admin</button>
+    </div>
+  </div>
+</div>
+
+<div id="mainSite">
+<div class="page">
+
+<nav>
+  <div class="brand">DEADLY WAVE</div>
+  <div class="tag">ESPORTS ORGANIZATION</div>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>Deadly <span>Wave</span></h1>
+    <p>Enter the neon tide of competitive esports. Join the squad, rent elite players, book lineups, enter tournaments, and schedule paid scrims with DW.</p>
+    <div class="hero-buttons">
+      <a href="#options" class="btn" onclick="showPage('home')">Explore Options</a>
+      <a href="https://www.instagram.com/deadly_wave_esp?igsh=OWJnczZjaWdheHVw" target="_blank" class="btn secondary">Contact DW</a>
+      <button id="adminDashBtn" class="btn secondary" style="display:none;" onclick="showPage('admin')">Admin Dashboard</button>
+    </div>
+  </div>
+
+  <div class="logo-card">
+    <div class="logo-inner">
+      <div class="dw-mark">DW</div>
+      <div class="wave">DEADLY WAVE</div>
+    </div>
+  </div>
+</section>
+
+<h2 class="section-title" id="options">Choose Your Wave</h2>
+
+<section class="options">
+  <div class="card">
+    <h3>Join Deadly Wave</h3>
+    <p>Apply to become part of Deadly Wave as a player, creator, manager, or staff member.</p>
+    <button onclick="showPage('join')">Open Page</button>
+  </div>
+
+  <div class="card">
+    <h3>Player Rental</h3>
+    <p>Hire a skilled DW player for your team, event, practice, or tournament slot.</p>
+    <button onclick="showPage('player')">Open Page</button>
+  </div>
+
+  <div class="card">
+    <h3>Line Up Booking</h3>
+    <p>Book a complete lineup for back-to-back matches, events, or tournament slots.</p>
+    <button onclick="showPage('lineup')">Open Page</button>
+  </div>
+
+  <div class="card">
+    <h3>Free Tournament Entry</h3>
+    <p>Register for free DW tournaments and battle your way through the bracket.</p>
+    <button onclick="showPage('tournament')">Open Page</button>
+  </div>
+
+  <div class="card">
+    <h3>Paid Scrims</h3>
+    <p>Join organized paid scrims with serious teams, clean lobbies, and proper schedules.</p>
+    <button onclick="showPage('scrim')">Open Page</button>
+  </div>
+</section>
+
+<section class="sub-page" id="join">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <h2>Join Deadly Wave</h2>
+  <p>Apply as a competitive player, content creator, editor, manager, caster, or staff member.</p>
+
+  <div class="form-box">
+    <input placeholder="Full Name">
+    <label class="field-label">What do you play?</label>
+    <select id="playType" class="select-field" onchange="toggleMode()">
+      <option>Freestyle</option>
+      <option>Esports</option>
+    </select>
+
+    <label id="modeLabel" class="field-label" style="display:none;">Choose esports mode:</label>
+    <select id="modeSelect" class="select-field" style="display:none;">
+      <option>Clash Squad</option>
+      <option>Battle Royale</option>
+    </select>
+
+    <input placeholder="Role / Style">
+    <input placeholder="Rank / Experience">
+    <input placeholder="Contact">
+    <textarea placeholder="Why do you want to join DW?"></textarea>
+    <button onclick="submitPage('Join Deadly Wave')">Submit Application</button>
+  </div>
+</section>
+
+<section class="sub-page" id="player">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <h2>Player Rental</h2>
+  <p>Rent a trained DW player for tournaments, practice sessions, custom rooms, or temporary slots.</p>
+
+  <div class="form-box">
+    <input placeholder="Your Team Name">
+
+    <label class="field-label">Type</label>
+    <select id="rentalType" class="select-field" onchange="toggleRentalType()">
+      <option value="" selected disabled>Select Type</option>
+      <option value="Freestyle">Freestyle</option>
+      <option value="Esports">Esports</option>
+    </select>
+
+    <div id="freestyleOptions" style="display:none;">
+      <label class="field-label">Tier</label>
+      <select class="select-field">
+        <option value="" selected disabled>Select Tier</option>
+        <option>S</option>
+        <option>A</option>
+        <option>D</option>
+        <option>E</option>
+        <option>F</option>
+      </select>
+    </div>
+
+    <div id="esportsOptions" style="display:none;">
+      <label class="field-label">Required Role</label>
+      <select class="select-field">
+        <option value="" selected disabled>Select Role</option>
+        <option>Assaulter</option>
+        <option>Sniper</option>
+        <option>Primary Rusher</option>
+        <option>Secondary Rusher</option>
+      </select>
+
+      <div class="role-grid">
+        <label><span>IGL</span><input type="checkbox"></label>
+        <label><span>Nader</span><input type="checkbox"></label>
+        <label><span>Tacker</span><input type="checkbox"></label>
+      </div>
+    </div>
+
+    <label class="field-label">Date</label>
+    <div class="picker-wrap">
+      <input id="rentalDate" type="date">
+      <button type="button" class="picker-icon" onclick="openPicker('rentalDate')">
+        <svg viewBox="0 0 24 24">
+          <path d="M7 2v3M17 2v3M4 9h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/>
+        </svg>
+      </button>
+    </div>
+
+    <label class="field-label">Time</label>
+    <div class="picker-wrap">
+      <input id="rentalTime" type="time">
+      <button type="button" class="picker-icon" onclick="openPicker('rentalTime')">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/>
+          <path d="M12 7v5l3 2"/>
+        </svg>
+      </button>
+    </div>
+
+    <input placeholder="Contact">
+    <button onclick="submitPage('Player Rental')">Request Player</button>
+  </div>
+</section>
+
+<section class="sub-page" id="lineup">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <h2>Line Up Booking</h2>
+  <p>Book a lineup for back-to-back matches, events, or tournament slots.</p>
+
+  <div class="form-box">
+    <input placeholder="Team / Organizer Name">
+    <input placeholder="Game / Tournament Name">
+    <input placeholder="How many B2B matches?">
+    <select class="select-field">
+      <option value="" selected disabled>Select Duration</option>
+      <option>One Day</option>
+      <option>2 Days</option>
+      <option>3+ Days</option>
+    </select>
+    <input placeholder="Contact Details">
+    <button onclick="submitPage('Line Up Booking')">Book Now</button>
+  </div>
+</section>
+
+<section class="sub-page" id="tournament">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <h2>Free Tournament Entry</h2>
+  <p>Register your squad for DW free tournaments. Limited slots, clean rooms, and competitive brackets.</p>
+
+  <div class="form-box">
+    <input placeholder="Team Name">
+    <input placeholder="Captain Name">
+
+    <div class="player-row">
+      <input placeholder="Player 1 UID">
+      <input placeholder="Player 1 In Game Name">
+    </div>
+
+    <div class="player-row">
+      <input placeholder="Player 2 UID">
+      <input placeholder="Player 2 In Game Name">
+    </div>
+
+    <div class="player-row">
+      <input placeholder="Player 3 UID">
+      <input placeholder="Player 3 In Game Name">
+    </div>
+
+    <div class="player-row">
+      <input placeholder="Player 4 UID">
+      <input placeholder="Player 4 In Game Name">
+    </div>
+
+    <div class="substitute-box">
+      <label class="field-label">Substitute Player</label>
+      <div class="player-row">
+        <input placeholder="Substitute UID">
+        <input placeholder="Substitute In Game Name">
+      </div>
+    </div>
+
+    <input placeholder="Contact">
+    <button onclick="submitPage('Free Tournament Entry')">Register Team</button>
+  </div>
+</section>
+
+<section class="sub-page" id="scrim">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <h2>Paid Scrims</h2>
+  <p>Premium paid scrims with fixed slots, prize pool, rules, and organized match structure.</p>
+
+  <div class="scrim-organizer">🛡 Organized by: Deadly Wave Esports</div>
+
+  <div class="scrim-info-grid">
+    <div class="scrim-info-card">
+      <div class="scrim-icon">📅</div>
+      <span>Reg. Start Date</span>
+      <h3 id="scrimStartDate">TBA</h3>
+    </div>
+
+    <div class="scrim-info-card highlight">
+      <div class="scrim-icon">🏆</div>
+      <span>Prize Pool</span>
+      <h3 id="scrimPrize">TBA</h3>
+    </div>
+
+    <div class="scrim-info-card">
+      <div class="scrim-icon">⏰</div>
+      <span>Tournament Time</span>
+      <h3 id="scrimTime">TBA</h3>
+    </div>
+  </div>
+
+  <div class="slot-status">
+    <div class="slot-top">
+      <div>
+        <span>Live Registration Status</span>
+        <h3><b id="paidScrimCount">0</b> / <span id="scrimTotalTeams">60</span></h3>
+      </div>
+      <span class="slot-badge">OPEN</span>
+    </div>
+    <div class="slot-bar">
+      <div class="slot-fill" id="slotFill"></div>
+    </div>
+  </div>
+
+  <div class="scrim-panel">
+    <div class="scrim-tabs">
+      <button class="tab-btn active" onclick="showScrimTab('desc', this)">Description</button>
+      <button class="tab-btn" onclick="showScrimTab('rules', this)">Rules</button>
+    </div>
+
+    <div class="scrim-content active" id="scrim-desc">
+      <h3>Deadly Wave Paid Scrim</h3>
+      <p id="scrimDescText">Scrim details will appear here.</p>
+      <p><b>Room ID:</b> <span id="scrimRoomId">Visible after admin sets it</span></p>
+      <p><b>Room Password:</b> <span id="scrimRoomPass">Visible after admin sets it</span></p>
+
+      <input id="scrimTeamName" placeholder="Team Name" style="margin-top:20px;width:100%;padding:15px;border-radius:12px;background:#001014;color:#dffcff;border:1px solid #23eaff;">
+      <input id="scrimContact" placeholder="Contact" style="margin-top:10px;width:100%;padding:15px;border-radius:12px;background:#001014;color:#dffcff;border:1px solid #23eaff;">
+      <button class="scrim-register" onclick="registerPaidScrim()">Register Now</button>
+    </div>
+
+    <div class="scrim-content" id="scrim-rules">
+      <h3>Rules</h3>
+      <p id="scrimRulesText">Rules will appear here.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sub-page" id="admin">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <h2>Admin Dashboard</h2>
+  <p>View MongoDB data and control Paid Scrim settings.</p>
+
+  <div class="admin-box">
+    <button onclick="loadAdminData()">Refresh Admin Data</button>
+
+    <div class="admin-counts" id="adminCounts"></div>
+
+    <h3 style="color:#7ffaff;">Paid Scrim Settings</h3>
+    <div class="form-box">
+      <input id="adminStartDate" placeholder="Registration Start Date">
+      <input id="adminEndDate" placeholder="Registration End Date">
+      <input id="adminPrize" placeholder="Prize Pool">
+      <input id="adminTime" placeholder="Tournament Time">
+      <input id="adminRoomId" placeholder="Free Fire Custom Room ID">
+      <input id="adminRoomPass" placeholder="Free Fire Custom Room Password">
+      <input id="adminTotalTeams" placeholder="Total Teams">
+      <textarea id="adminDesc" placeholder="Description"></textarea>
+      <textarea id="adminRules" placeholder="Rules"></textarea>
+      <button onclick="saveScrimSettings()">Save Scrim Settings</button>
+    </div>
+
+    <h3 style="color:#7ffaff;">All Registered Data</h3>
+    <div id="adminEntries"></div>
+  </div>
+</section>
+
+<footer id="contact">
+  © 2026 Deadly Wave Esports | Ride the tide. Rule the lobby.
+</footer>
+
+</div>
+</div>
+
+<div class="site-popup" id="sitePopup">
+  <div class="popup-card">
+    <h3 id="popupTitle">Request Submitted</h3>
+    <p id="popupMessage">DW team will contact you soon.</p>
+    <button onclick="closePopup()">Done</button>
+  </div>
+</div>
+
+<script>
+const API_BASE="https://dw-backend-um26.onrender.com";
+let isAdmin=false;
+
+const homeParts=[
+  document.querySelector('.hero'),
+  document.querySelector('.section-title'),
+  document.querySelector('.options')
+];
+
+function enterSite(){
+  document.getElementById("loginPage").style.display="none";
+  document.getElementById("mainSite").style.display="block";
+  loadScrimSettings();
+}
+
+function googleLogin(){
+  enterSite();
+}
+
+async function adminLogin(){
+  const adminId=document.getElementById("adminId").value.trim();
+  const password=document.getElementById("adminPass").value.trim();
+
+  const res=await fetch(API_BASE+"/admin-login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({adminId,password})
+  });
+
+  if(res.ok){
+    isAdmin=true;
+    document.getElementById("adminDashBtn").style.display="inline-block";
+    enterSite();
+    showPage("admin");
+    loadAdminData();
+  }else{
+    alert("Wrong Admin Login");
+  }
+}
+
+function showPage(pageId){
+  document.querySelectorAll('.sub-page').forEach(page=>page.classList.remove('active'));
+
+  if(pageId==='home'){
+    homeParts.forEach(part=>part.style.display='');
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+
+  homeParts.forEach(part=>part.style.display='none');
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  if(pageId==="scrim") loadScrimSettings();
+  if(pageId==="admin" && isAdmin) loadAdminData();
+}
+
+function toggleMode(){
+  const type=document.getElementById('playType').value;
+  const mode=document.getElementById('modeSelect');
+  const modeLabel=document.getElementById('modeLabel');
+
+  if(type==='Esports'){
+    mode.style.display='block';
+    modeLabel.style.display='block';
+  }else{
+    mode.style.display='none';
+    modeLabel.style.display='none';
+  }
+}
+
+function toggleRentalType(){
+  const type=document.getElementById("rentalType").value;
+  const freestyle=document.getElementById("freestyleOptions");
+  const esports=document.getElementById("esportsOptions");
+
+  if(type==="Freestyle"){
+    freestyle.style.display="grid";
+    esports.style.display="none";
+  }else if(type==="Esports"){
+    freestyle.style.display="none";
+    esports.style.display="grid";
+  }else{
+    freestyle.style.display="none";
+    esports.style.display="none";
+  }
+}
+
+function showScrimTab(tab,btn){
+  document.querySelectorAll('.scrim-content').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('scrim-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function openPicker(inputId){
+  const input=document.getElementById(inputId);
+  if(input.showPicker){input.showPicker()}
+  else{input.focus();input.click()}
+}
+
+async function submitPage(optionName){
+  const activePage=document.querySelector('.sub-page.active');
+  const fields=activePage.querySelectorAll('input, textarea, select');
+
+  let allFilled=true;
+  let data={};
+
+  fields.forEach((field,index)=>{
+    if(field.offsetParent===null)return;
+
+    if(field.type==='checkbox'){
+      data[field.parentElement.innerText.trim()]=field.checked;
+      return;
+    }
+
+    if(field.tagName==='SELECT'){
+      const isPlaceholder=field.options[field.selectedIndex]&&field.options[field.selectedIndex].disabled;
+      if(field.id!=="playType"&&(!field.value||isPlaceholder)){allFilled=false}
+    }
+
+    if(field.value.trim()===''){allFilled=false}
+    data[field.placeholder||field.id||("field_"+index)]=field.value;
+  });
+
+  if(!allFilled){
+    popup("All Fields Required","Please fill all details before submitting.");
+    return;
+  }
+
+  await fetch(API_BASE+"/submit",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({type:optionName,data})
+  });
+
+  popup("Saved",optionName+" stored in MongoDB.");
+}
+
+async function registerPaidScrim(){
+  const team=document.getElementById("scrimTeamName").value.trim();
+  const contact=document.getElementById("scrimContact").value.trim();
+
+  if(!team||!contact){
+    popup("All Fields Required","Enter team name and contact.");
+    return;
+  }
+
+  await fetch(API_BASE+"/submit",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      type:"Paid Scrim",
+      data:{teamName:team,contact:contact}
+    })
+  });
+
+  popup("Registered","Paid Scrim registration saved.");
+  loadScrimSettings();
+}
+
+async function loadAdminData(){
+  const res=await fetch(API_BASE+"/admin-data");
+  const data=await res.json();
+
+  if(!data.success)return;
+
+  const c=data.counts;
+  document.getElementById("adminCounts").innerHTML=`
+    <div class="admin-count"><h3>${c.total}</h3><p>Total Entries</p></div>
+    <div class="admin-count"><h3>${c.join}</h3><p>Join DW</p></div>
+    <div class="admin-count"><h3>${c.playerRental}</h3><p>Player Rental</p></div>
+    <div class="admin-count"><h3>${c.lineup}</h3><p>Lineup</p></div>
+    <div class="admin-count"><h3>${c.tournament}</h3><p>Tournament</p></div>
+    <div class="admin-count"><h3>${c.paidScrim}</h3><p>Paid Scrim</p></div>
+  `;
+
+  let html="";
+  data.entries.forEach(e=>{
+    html+=`
+      <div class="entry-card">
+        <h4>${e.type}</h4>
+        <pre>${JSON.stringify(e.data,null,2)}</pre>
+        <small>${new Date(e.createdAt).toLocaleString()}</small>
+      </div>
+    `;
+  });
+
+  document.getElementById("adminEntries").innerHTML=html || "<p>No entries yet.</p>";
+  updatePaidScrimCount(c.paidScrim);
+}
+
+async function saveScrimSettings(){
+  const settings={
+    registrationStartDate:document.getElementById("adminStartDate").value,
+    registrationEndDate:document.getElementById("adminEndDate").value,
+    prizePool:document.getElementById("adminPrize").value,
+    tournamentTime:document.getElementById("adminTime").value,
+    roomId:document.getElementById("adminRoomId").value,
+    roomPassword:document.getElementById("adminRoomPass").value,
+    totalTeams:document.getElementById("adminTotalTeams").value,
+    description:document.getElementById("adminDesc").value,
+    rules:document.getElementById("adminRules").value
+  };
+
+  await fetch(API_BASE+"/scrim-settings",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(settings)
+  });
+
+  popup("Saved","Paid Scrim settings updated.");
+  loadScrimSettings();
+}
+
+async function loadScrimSettings(){
+  try{
+    const res=await fetch(API_BASE+"/scrim-settings");
+    const data=await res.json();
+
+    if(data.success && data.settings){
+      const s=data.settings;
+
+      document.getElementById("scrimStartDate").textContent=s.registrationStartDate||"TBA";
+      document.getElementById("scrimPrize").textContent=s.prizePool||"TBA";
+      document.getElementById("scrimTime").textContent=s.tournamentTime||"TBA";
+      document.getElementById("scrimTotalTeams").textContent=s.totalTeams||"60";
+      document.getElementById("scrimDescText").textContent=s.description||"Scrim details will appear here.";
+      document.getElementById("scrimRulesText").textContent=s.rules||"Rules will appear here.";
+      document.getElementById("scrimRoomId").textContent=s.roomId||"Visible after admin sets it";
+      document.getElementById("scrimRoomPass").textContent=s.roomPassword||"Visible after admin sets it";
+    }
+
+    const adminRes=await fetch(API_BASE+"/admin-data");
+    const adminData=await adminRes.json();
+    if(adminData.success){
+      updatePaidScrimCount(adminData.counts.paidScrim);
+    }
+  }catch(err){
+    console.log(err);
+  }
+}
+
+function updatePaidScrimCount(count){
+  const total=Number(document.getElementById("scrimTotalTeams").textContent)||60;
+  document.getElementById("paidScrimCount").textContent=count||0;
+  const percent=Math.min(((count||0)/total)*100,100);
+  document.getElementById("slotFill").style.width=percent+"%";
+}
+
+function popup(title,msg){
+  document.getElementById('popupTitle').textContent=title;
+  document.getElementById('popupMessage').textContent=msg;
+  document.getElementById('sitePopup').classList.add('active');
+}
+
+function closePopup(){
+  document.getElementById('sitePopup').classList.remove('active');
+}
+</script>
+
+</body>
+</html>
