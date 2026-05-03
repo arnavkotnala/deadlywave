@@ -707,7 +707,8 @@ footer{
     <p>Enter the neon tide of competitive esports. Join the squad, rent elite players, book lineups, enter tournaments, and schedule paid scrims with DW.</p>
     <div class="hero-buttons">
       <a href="#options" class="btn" onclick="showPage('home')">Explore Options</a>
-      <a href="https://www.instagram.com/deadly_wave_esp?igsh=OWJnczZjaWdheHVw" target="_blank" class="btn secondary">Contact DW</a>
+      <a href="https://www.instagram.com/deadly_wave_esp?igsh=OWJnczZjaWdheHVw" target="_blank" class="btn secondary">Instagram</a>
+      <a href="https://whatsapp.com/channel/0029VbCffxnCsU9Z419vYM3z" target="_blank" class="btn secondary">WhatsApp Channel</a>
       <button id="adminDashBtn" class="btn secondary" style="display:none;" onclick="showPage('admin')">Admin Dashboard</button>
     </div>
   </div>
@@ -761,6 +762,7 @@ footer{
 
   <div class="form-box">
     <input placeholder="Full Name">
+
     <label class="field-label">What do you play?</label>
     <select id="playType" class="select-field" onchange="toggleMode()">
       <option>Freestyle</option>
@@ -775,7 +777,15 @@ footer{
 
     <input placeholder="Role / Style">
     <input placeholder="Rank / Experience">
-    <input placeholder="Contact">
+
+    <label class="field-label">Contact Option</label>
+    <select class="select-field">
+      <option value="" selected disabled>Select Contact Option</option>
+      <option>WhatsApp</option>
+      <option>Instagram</option>
+    </select>
+    <input placeholder="WhatsApp / Instagram Link">
+
     <textarea placeholder="Why do you want to join DW?"></textarea>
     <button onclick="submitPage('Join Deadly Wave')">Submit Application</button>
   </div>
@@ -846,7 +856,14 @@ footer{
       </button>
     </div>
 
-    <input placeholder="Contact">
+    <label class="field-label">Contact Option</label>
+    <select class="select-field">
+      <option value="" selected disabled>Select Contact Option</option>
+      <option>WhatsApp</option>
+      <option>Instagram</option>
+    </select>
+    <input placeholder="WhatsApp / Instagram Link">
+
     <button onclick="submitPage('Player Rental')">Request Player</button>
   </div>
 </section>
@@ -860,13 +877,22 @@ footer{
     <input placeholder="Team / Organizer Name">
     <input placeholder="Game / Tournament Name">
     <input placeholder="How many B2B matches?">
+
     <select class="select-field">
       <option value="" selected disabled>Select Duration</option>
       <option>One Day</option>
       <option>2 Days</option>
       <option>3+ Days</option>
     </select>
-    <input placeholder="Contact Details">
+
+    <label class="field-label">Contact Option</label>
+    <select class="select-field">
+      <option value="" selected disabled>Select Contact Option</option>
+      <option>WhatsApp</option>
+      <option>Instagram</option>
+    </select>
+    <input placeholder="WhatsApp / Instagram Link">
+
     <button onclick="submitPage('Line Up Booking')">Book Now</button>
   </div>
 </section>
@@ -908,7 +934,14 @@ footer{
       </div>
     </div>
 
-    <input placeholder="Contact">
+    <label class="field-label">Contact Option</label>
+    <select class="select-field">
+      <option value="" selected disabled>Select Contact Option</option>
+      <option>WhatsApp</option>
+      <option>Instagram</option>
+    </select>
+    <input placeholder="WhatsApp / Instagram Link">
+
     <button onclick="submitPage('Free Tournament Entry')">Register Team</button>
   </div>
 </section>
@@ -966,7 +999,15 @@ footer{
       <p><b>Room Password:</b> <span id="scrimRoomPass">Visible after admin sets it</span></p>
 
       <input id="scrimTeamName" placeholder="Team Name" style="margin-top:20px;width:100%;padding:15px;border-radius:12px;background:#001014;color:#dffcff;border:1px solid #23eaff;">
-      <input id="scrimContact" placeholder="Contact" style="margin-top:10px;width:100%;padding:15px;border-radius:12px;background:#001014;color:#dffcff;border:1px solid #23eaff;">
+
+      <select id="scrimContactType" class="select-field" style="margin-top:10px;">
+        <option value="" selected disabled>Select Contact Option</option>
+        <option>WhatsApp</option>
+        <option>Instagram</option>
+      </select>
+
+      <input id="scrimContact" placeholder="WhatsApp / Instagram Link" style="margin-top:10px;width:100%;padding:15px;border-radius:12px;background:#001014;color:#dffcff;border:1px solid #23eaff;">
+
       <button class="scrim-register" onclick="registerPaidScrim()">Register Now</button>
     </div>
 
@@ -1058,7 +1099,7 @@ async function adminLogin(){
     showPage("admin");
     loadAdminData();
   }else{
-    alert("Wrong Admin Login");
+    popup("Wrong Login","Wrong Admin ID or Password.");
   }
 }
 
@@ -1144,7 +1185,9 @@ async function submitPage(optionName){
     }
 
     if(field.value.trim()===''){allFilled=false}
-    data[field.placeholder||field.id||("field_"+index)]=field.value;
+
+    let key=field.placeholder||field.previousElementSibling?.innerText||field.id||("field_"+index);
+    data[key]=field.value;
   });
 
   if(!allFilled){
@@ -1163,10 +1206,11 @@ async function submitPage(optionName){
 
 async function registerPaidScrim(){
   const team=document.getElementById("scrimTeamName").value.trim();
+  const contactType=document.getElementById("scrimContactType").value.trim();
   const contact=document.getElementById("scrimContact").value.trim();
 
-  if(!team||!contact){
-    popup("All Fields Required","Enter team name and contact.");
+  if(!team||!contactType||!contact){
+    popup("All Fields Required","Enter team name, contact option, and WhatsApp/Instagram link.");
     return;
   }
 
@@ -1175,7 +1219,11 @@ async function registerPaidScrim(){
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       type:"Paid Scrim",
-      data:{teamName:team,contact:contact}
+      data:{
+        teamName:team,
+        contactOption:contactType,
+        contactLink:contact
+      }
     })
   });
 
